@@ -23,7 +23,7 @@ services:
         - MEMCACHED=0
     restart: always
     labels:
-       - traefik.enable=false
+      - traefik.enable=true
       - traefik.http.frontend.rule=Host:vladimir-lopatkin.local,www.vladimir-lopatkin.local,example-website2.local,www.example-website2.local
       - traefik.http.frontend.entryPoints=http
       - traefik.https.frontend.rule=Host:vladimir-lopatkin.local,www.vladimir-lopatkin.local,example-website2.local,www.example-website2.local
