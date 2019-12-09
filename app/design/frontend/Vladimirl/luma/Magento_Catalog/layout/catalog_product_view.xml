@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
-<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <head>
-        <css src="mage/gallery/gallery.css"/>
-    </head>
-    <update handle="catalog_product_opengraph" />
-    <update handle="page_calendar"/>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-        <move element="product.info.extrahint" destination="product.info.main" before="product.info.review"/>
+        <move element="product.info.extrahint" destination="product.info.main" before="product.info.review"/>		
+		<referenceContainer name="product.info.main">
+            <block class="Magento\Framework\View\Element\Template"
+                name="error.message"
+                before="product.info.details"
+                template="Magento_Catalog::product/error_message.phtml" />
+        </referenceContainer>
     </body>
 </page>
