@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="after.body.start">
+           <block class="Magento\Cms\Block\Block" name="promo_block" before="-">
+        		<arguments>
+            		<argument name="block_id" xsi:type="string">promo_block</argument>
+        		</arguments>
+    		</block>
+        </referenceContainer>
+		
+		<referenceContainer name="columns"> 
+			<container name="div.left.column.image" htmlTag="div" htmlClass="left-column-image" after="div.sidebar.additional">
+            	<block class="Magento\Cms\Block\Block" name="left_column_image">
+        		<arguments>
+            		<argument name="block_id" xsi:type="string">left_column_image</argument>
+        		</arguments>
+    		</block>
+            </container>
+		</referenceContainer>
+    </body>
+</page>

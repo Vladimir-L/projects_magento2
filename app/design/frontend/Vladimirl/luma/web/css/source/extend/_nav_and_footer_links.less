@@ -14,8 +14,17 @@
 
 @submenu-desktop-item__color: @color-gray34;
 @submenu-desktop-item__hover__color: @color-gray34;
+@submenu-desktop-item__active__color: @color-gray34;
     
 /* white color for footer links*/
 
 @footer-links-color: @color-white;
 @footer-links-color-hover: @color-white;
+
+/* white color for footer newsletter text*/
+
+& when (@media-common = true) {
+    .newsletter_text {
+		color: @color-white;
+	}
+}
