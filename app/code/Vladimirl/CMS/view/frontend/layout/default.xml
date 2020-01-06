@@ -8,15 +8,5 @@
         		</arguments>
     		</block>
         </referenceContainer>
-		
-		<referenceContainer name="columns"> 
-			<container name="div.left.column.image" htmlTag="div" htmlClass="left-column-image" after="div.sidebar.additional">
-            	<block class="Magento\Cms\Block\Block" name="left_column_image">
-        		<arguments>
-            		<argument name="block_id" xsi:type="string">left_column_image</argument>
-        		</arguments>
-    		</block>
-            </container>
-		</referenceContainer>
     </body>
 </page>
