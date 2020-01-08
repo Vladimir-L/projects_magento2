@@ -13,6 +13,5 @@ class Data extends \Magento\Framework\View\Element\Template
     {
         $repository = $this->getRequest()->getParam('repository');
         return $repository;
-    }
-    
+    }    
 }

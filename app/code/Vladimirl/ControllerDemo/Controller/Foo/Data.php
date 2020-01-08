@@ -13,6 +13,5 @@ class Data extends \Magento\Framework\App\Action\Action implements
     {
     	return $this->resultFactory->create(ResultFactory::TYPE_PAGE);
     }
-
 }
 

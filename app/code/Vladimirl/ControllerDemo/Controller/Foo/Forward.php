@@ -13,7 +13,6 @@ class Forward extends \Magento\Framework\App\Action\Action implements
 	 * @inheritDoc
 	 * 	https://vladimir-lopatkin.local/controller-demo-url/foo/forward/
 	 */
-
 	public function execute()
 	{
 		$resultRedirect = $this->resultRedirectFactory->create();
