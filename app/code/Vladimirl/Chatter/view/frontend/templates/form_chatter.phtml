@@ -1,0 +1,14 @@
+<div id="vladimirl-chatter-form-chatter" 
+	style="display: none;"
+	data-mage-init='{"vladimirL_chatter_formChatter": {}}' >
+	<form action="form_chatter_submit" method="post" autocomplete="off">
+		<textarea name="displayedText" id="displayedText" readonly="readonly"></textarea>
+		<textarea name="entryText" id="entryText" placeholder="Message"
+			data-validate="{required:true}"></textarea>
+		<button type="button" title="<?= $block->escapeHtmlAttr(__('Submit')) ?>" 
+			id="send-message-button"><?= $block->escapeHtml(__('Send message')) ?>
+		</button>
+		<button type="button" id="vladimirl-chatter-close-chatter-batton">
+			<?= $block->escapeHtml(__('Close chat')) ?></button>
+	</form>	
+</div>

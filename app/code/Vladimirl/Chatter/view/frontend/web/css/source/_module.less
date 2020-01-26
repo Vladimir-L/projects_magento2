@@ -1,0 +1,62 @@
+& when (@media-common = true) {
+	.vladimirl-chatter-open-button {
+		font-size: 65px;
+		position: fixed;
+		bottom: 60px;
+		right: -70px;
+		z-index: 99999;
+		color: @color-orange-red4;
+		transition-property: right;
+		transition-duration: .3s;
+		.icon-chatt {
+    		.lib-icon-font(
+        		@_icon-font-content: @icon-comment
+   			);
+		}
+		&:hover {
+			text-decoration: @link__text-decoration;
+			color: #02b566;
+		}
+
+		&.active {
+			right: 20px;
+		}	
+	}
+
+	#vladimirl-chatter-form-chatter {
+		max-height: 100%;
+		width: 235px;
+		padding: 5px;
+		background-color: @color-gray82;
+		border: 1px solid @color-gray60;
+		border-radius: 8px;
+		position: fixed;
+		bottom: -400px;
+		right: 10px;
+		z-index: 99999;
+		text-align: center;
+		transition-property: bottom;
+		transition-duration: .5s;
+		#displayedText, #entryText {
+			width: 100%;
+			resize: none;
+			background-color: @color-white;
+			border: 1px solid @color-gray60;
+		}
+		#displayedText {
+			height: 250px;
+			border-radius: 8px 8px 0px 0px;
+		}
+		#entryText {
+			height: 50px;
+			border-radius: 0px 0px 8px 8px;
+		}
+		button {
+			border-radius: 5px;
+		}
+
+		&.active {
+			bottom: 20px;
+		}
+	}		
+}

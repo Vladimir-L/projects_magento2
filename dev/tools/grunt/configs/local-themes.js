@@ -12,7 +12,7 @@ module.exports = {
     vladimirl_luma_uk_UA: {
         area: 'frontend',
         name: 'Vladimirl/luma',
-        locale: 'en_US',
+        locale: 'uk_Ua',
         files: [
             'css/styles-m',
             'css/styles-l'
@@ -22,7 +22,7 @@ module.exports = {
     vladimirl_luma_ru_RU: {
         area: 'frontend',
         name: 'Vladimirl/luma',
-        locale: 'en_US',
+        locale: 'ru_RU',
         files: [
             'css/styles-m',
             'css/styles-l'

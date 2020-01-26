@@ -16,7 +16,6 @@ class Forward extends \Magento\Framework\App\Action\Action implements
 	public function execute()
 	{
 		$resultRedirect = $this->resultRedirectFactory->create();
-    	
     	$params = [
     		'firstName' => 'Vladimir',
     		'lastName' => 'Lopatkin',
@@ -27,4 +26,5 @@ class Forward extends \Magento\Framework\App\Action\Action implements
 
     	return $resultRedirect;
     }
+
 }

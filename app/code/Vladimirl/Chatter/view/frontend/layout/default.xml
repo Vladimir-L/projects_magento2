@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="before.body.end">
+            <container name="vladimirL.chatter">
+                <block class="Magento\Framework\View\Element\Template"
+                       name="vladimirL.chatter.button"
+                       template="Vladimirl_Chatter::open_button.phtml"
+                />
+                <block class="Magento\Framework\View\Element\Template"
+                       name="vladimirL.chatter.formChatter"
+                       template="Vladimirl_Chatter::form_chatter.phtml"
+                />
+            </container>
+        </referenceContainer>
+    </body>
+</page>
