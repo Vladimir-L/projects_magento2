@@ -30,10 +30,10 @@ define ([
 		closeFormChatter: function () {
 			$(this.element).removeClass('active');
 			$(this.options.formChatterOpenbutton).trigger('vladimirL_chatter_closeChatter');
-		}
+		},
 		sendMessageToForm: function () {
-			var entrytext1 = document.getElementById('entryTex').value;
-			document.getElementById('displayedText').value = entrytext1;	
+			var text = $('#entryText');
+			$('#displayedText').val(text);	
 		}
 	});
 	return $.vladimirLChatter.formChatter;
