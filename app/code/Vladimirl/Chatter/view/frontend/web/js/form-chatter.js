@@ -32,7 +32,7 @@ define ([
 			$(this.options.formChatterOpenbutton).trigger('vladimirL_chatter_closeChatter');
 		}
 		sendMessageToForm: function () {
-			var entrytext1 = document.getElementByd('entryTex').value;
+			var entrytext1 = document.getElementById('entryTex').value;
 			document.getElementById('displayedText').value = entrytext1;	
 		}
 	});
