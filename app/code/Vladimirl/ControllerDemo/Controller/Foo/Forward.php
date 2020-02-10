@@ -19,12 +19,12 @@ class Forward extends \Magento\Framework\App\Action\Action implements
     	$params = [
     		'firstName' => 'Vladimir',
     		'lastName' => 'Lopatkin',
-    		'repository' => 'Projects_magento2'
+    		'nameRepository' => 'Project_Magento_2',
+    		'urlRepository' => 'https://github.com/Vladimir-L/projects_magento2'
 		];
 
     	$resultRedirect->setPath('*/*/data', array('_query'=> $params));
 
     	return $resultRedirect;
     }
-
 }
