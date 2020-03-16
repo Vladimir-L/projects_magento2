@@ -1,15 +1,21 @@
+<?php /** @var \Vladimirl\Chatter\Block\Data $block */ ?>
 <div>
     <form id="vladimirl-chatter-form-chatter" method="post" autocomplete="off"
           action="<?= $block->escapeUrl($block->getUrl('vladimrl_chatter_controller/submit/submit')) ?>"
           data-mage-init='{"vladimirL_chatter_formChatter": {}}'
           onsubmit="return false"
     >
-        <div id="displayedForm"></div>
+        <div id="displayedForm">
+            <?php /** @var \Vladimirl\Chatter\Model\ChatMessage $massage */ ?>
+            <?php foreach ($block->getChatMessage() as $massage): ?>
+                <p><?= $massage->getMessage(); ?></p>
+            <?php endforeach; ?>
+        </div>
         <textarea id="entryText" placeholder="Message" name="textRequest"
                data-validate="{required:true}"></textarea>
 		<button type="submit" id="send-message-button">
             <?= $block->escapeHtml(__('Send message')) ?></button>
-    <button type="button" id="close-chatter-batton">
+        <button type="button" id="close-chatter-batton">
             <?= $block->escapeHtml(__('Close chat')) ?></button>
 	</form>	
 </div>

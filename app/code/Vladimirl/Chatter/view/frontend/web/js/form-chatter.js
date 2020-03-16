@@ -63,7 +63,6 @@ define([
 
                 success: function (response) {
                     $('body').trigger('processStop');
-
                     if (this.shouldShowMessage) {
                         alert({
                             title: $.mage.__('Hello!'),
@@ -81,6 +80,5 @@ define([
             });
         }
     });
-
     return $.vladimirLChatter.formChatter;
 });
