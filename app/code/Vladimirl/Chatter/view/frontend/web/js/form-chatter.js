@@ -8,10 +8,13 @@ define([
     $.widget('vladimirLChatter.formChatter', {
         options: {
             formChatterOpenbutton: '.vladimirl-chatter-open-button',
-            closeChatterForm: '#close-chatter-batton',
+            closeChatterForm: '#close-chatter-button',
             sendMessage: '#send-message-button'
         },
 
+        /**
+         * @private
+         */
         _create: function () {
             this.shouldShowMessage = true;
             $(document).on('vladimirL_chatter_openChatter.vladimirL_chatter', $.proxy(this.openFormChatter, this));
@@ -20,28 +23,38 @@ define([
             $(this.element).show();
         },
 
-        // _destroy: function () {
-        // 	$(document).off('vladimirL_chatter_openChatter.vladimirL_chatter');
-        // 	$(this.options.closeChatterForm).off('click.vladimirL_chatter_openChatter.vladimirL_chatter');
-        // 	$(this.options.sendMessage).off('click.vladimirL_chatter');
-        // },
-
+        /**
+         * Open chatter form
+         */
         openFormChatter: function () {
             $(this.element).addClass('active');
         },
+
+        /**
+         * Close chatter form
+         */
         closeFormChatter: function () {
             $(this.element).removeClass('active');
             $(this.options.formChatterOpenbutton).trigger('vladimirL_chatter_closeChatter');
         },
+
         submitForm: function () {
             if (!this.validateForm()) {
                 return;
             }
             this.ajaxSubmit();
         },
+
+        /**
+         * Validate chatter form
+         */
         validateForm: function () {
             return $(this.element).validation().valid();
         },
+
+        /**
+         * Submit message via AJAX
+         */
         ajaxSubmit: function () {
             var formData = new FormData($(this.element).get(0));
 
@@ -57,10 +70,13 @@ define([
                 dataType: 'json',
                 context: this,
 
+                /** @inheritdoc */
                 beforeSend: function () {
                     $('body').trigger('processStart');
                 },
 
+                // @TODO show success message and display message in message list
+                /** @inheritdoc */
                 success: function (response) {
                     $('body').trigger('processStop');
                     if (this.shouldShowMessage) {
@@ -74,8 +90,8 @@ define([
                         });
                         this.shouldShowMessage = false;
                     }
-                    $('#displayedForm').append('<p>' + response.textform + '</p>');
-                    $('#entryText').val('');
+                    $('#messages-list').append('<p>' + response.messageOutput + '</p>');
+                    $('#message-input').val('');
                 }
             });
         }

@@ -27,13 +27,14 @@ class Data extends Template
     }
 
     /**
-     * @return \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatMessageCollection
+     * @return $message array
      */
     public function getChatMessage()
     {
-        $_messageCollection = $this->chatMessageCollection->create();
-        $_messageCollection->setOrder('message_id', 'DESC')->setPageSize(10);
-//        $_messageCollection->getSelect()->limit(10)->order()
-        return $_messageCollection;
+        $messageCollection = $this->chatMessageCollection->create();
+        return array_reverse($messageCollection
+            ->setOrder('message_id', 'DESC')
+            ->setPageSize(10)
+            ->getColumnValues('message'));
     }
 }
