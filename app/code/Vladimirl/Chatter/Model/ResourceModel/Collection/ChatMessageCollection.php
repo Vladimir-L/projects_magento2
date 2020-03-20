@@ -16,4 +16,31 @@ class ChatMessageCollection extends AbstractCollection
     {
         $this->_init(Model::class, ResourceModel::class);
     }
+
+    /**
+     * @param $chatHash
+     * @return $this
+     */
+    public function addChatHashFilter($chatHash): self
+    {
+        return $this->addFieldToFilter('chat_hash', $chatHash);
+    }
+
+    /**
+     * @param $customerId
+     * @return $this
+     */
+    public function addCustomerIdFilter($customerId): self
+    {
+        return $this->addFieldToFilter('author_id', $customerId);
+    }
+
+    /**
+     * @param $authorType
+     * @return $this
+     */
+    public function addAuthorTypeFilter($authorType): self
+    {
+        return $this->addFieldToFilter('author_type', $authorType);
+    }
 }

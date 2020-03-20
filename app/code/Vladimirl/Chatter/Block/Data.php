@@ -9,29 +9,39 @@ use Magento\Framework\View\Element\Template\Context;
 class Data extends Template
 {
     /**
+     * @var \Magento\Customer\Model\Session $customerSession
+     */
+    private $customerSession;
+
+    /**
      * @var \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatMessageCollectionFactory
      */
-    protected $chatMessageCollection;
+    protected $messageCollectionFactory;
 
     /**
      * Data constructor.
-     * @param \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatMessageCollectionFactory $messageFactory
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatMessageCollectionFactory $messageCollectionFactory
      * @param Context $context
      */
     public function __construct(
-        \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatMessageCollectionFactory $messageFactory,
+        \Magento\Customer\Model\Session $customerSession,
+        \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatMessageCollectionFactory $messageCollectionFactory,
         Context $context
     ) {
-        $this->chatMessageCollection = $messageFactory;
+        $this->customerSession = $customerSession;
+        $this->messageCollectionFactory = $messageCollectionFactory;
         parent::__construct($context);
     }
 
     /**
-     * @return $message array
+     * @return array $message
      */
-    public function getChatMessage()
+    public function getChatMessage(): array
     {
-        $messageCollection = $this->chatMessageCollection->create();
+        $chatHash = $this->customerSession->getChatHash();
+        $messageCollection = $this->messageCollectionFactory->create();
+        $messageCollection->addChatHashFilter($chatHash);
         return array_reverse($messageCollection
             ->setOrder('message_id', 'DESC')
             ->setPageSize(10)

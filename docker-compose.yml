@@ -35,7 +35,8 @@ services:
       - "vladimir-lopatkin.local www.vladimir-lopatkin.local vladimir-lopatkin-secondary.local www.vladimir-lopatkin-secondary.local:127.0.0.1"
 #    links:
 #      - memcached
-#      - redis
+    links:
+      - redis
 #      - elasticsearch
     external_links:
       - mysql57:mysql
@@ -47,12 +48,12 @@ services:
       - /misc/share/ssl:/certs
       - ./docker/virtual-host.conf:/etc/apache2/sites-enabled/virtual-host.conf
 
-#  redis:
-#    image: redis:latest
-#    network_mode: bridge
-#    labels:
-#      - traefik.enable=false
-#    restart: always
+  redis:
+    image: redis:latest
+    network_mode: bridge
+    labels:
+      - traefik.enable=false
+    restart: always
 
 #  memcached:
 #    image: 'memcached:1.5'
