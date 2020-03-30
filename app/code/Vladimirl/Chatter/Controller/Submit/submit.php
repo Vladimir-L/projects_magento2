@@ -10,7 +10,7 @@ class Submit extends \Magento\Framework\App\Action\Action implements
     \Magento\Framework\App\Action\HttpPostActionInterface
 {
     public function execute()
-    {   
+    {
         $request = $this->getRequest()->getParam('textRequest');
         $response = $this->resultFactory->create(ResultFactory::TYPE_JSON);
         $response->setData([
