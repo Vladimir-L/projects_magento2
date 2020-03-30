@@ -27,10 +27,10 @@ class ChatMessageCollection extends AbstractCollection
     }
 
     /**
-     * @param $customerId
+     * @param int $customerId
      * @return $this
      */
-    public function addCustomerIdFilter($customerId): self
+    public function addCustomerIdFilter(int $customerId): self
     {
         return $this->addFieldToFilter('author_id', $customerId);
     }
