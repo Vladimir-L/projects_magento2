@@ -9,7 +9,6 @@ define([
 
     return Component.extend({
         defaults: {
-            template: 'Vladimirl_Chatter/form_chatter',
             action: '',
             shouldShowMessage: true,
         },

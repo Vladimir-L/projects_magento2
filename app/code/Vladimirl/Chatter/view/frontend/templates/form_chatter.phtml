@@ -5,14 +5,7 @@
 <script type="text/x-magento-init">
     {
         "*": {
-            "Magento_Ui/js/core/app": {
-                "components": {
-                    "formChatter": {
-                        "component": "vladimirL_chatter_formChatter"
-                        "action": "<?= $block->escapeUrl($block->getUrl('vladimrl_chatter_controller/submit/submit')) ?>"
-                    }
-                }
-            }
+            "Magento_Ui/js/core/app": <?= /* @noEscape */ $block->getJsLayout() ?>
         }
     }
 </script>

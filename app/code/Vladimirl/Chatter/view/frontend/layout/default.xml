@@ -7,10 +7,27 @@
                        name="vladimirL.chatter.button"
                        template="Vladimirl_Chatter::open_button.phtml"
                 />
-                <block class="Vladimirl\Chatter\Block\Data"
+                <block class="Magento\Framework\View\Element\Template"
                        name="vladimirL.chatter.formChatter"
                        template="Vladimirl_Chatter::form_chatter.phtml"
-                />
+                >
+                    <arguments>
+                        <argument name="jsLayout" xsi:type="array">
+                            <item name="components" xsi:type="array">
+                                <item name="formChatter" xsi:type="array">
+                                    <item name="component" xsi:type="string">vladimirL_chatter_formChatter</item>
+                                    <item name="config" xsi:type="array">
+                                        <item name="template" xsi:type="string">Vladimirl_Chatter/form_chatter</item>
+                                        <item name="action"
+                                              xsi:type="url"
+                                              path="vladimrl_chatter_controller/submit/submit"
+                                        />
+                                    </item>
+                                </item>
+                            </item>
+                        </argument>
+                    </arguments>
+                </block>
             </container>
         </referenceContainer>
     </body>
