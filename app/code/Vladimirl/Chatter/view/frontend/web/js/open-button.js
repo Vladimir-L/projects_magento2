@@ -15,7 +15,7 @@ define([
          */
         _create: function () {
             $(this.element).on('click.vladimirL_chatter', $.proxy(this.openChatter, this));
-            $(this.element).on('vladimirL_chatter_closeChatter.vladimirL_chatter', $.proxy(this.closeChatter, this));
+            $(document).on('vladimirL_chatter_closeChatter.vladimirL_chatter', $.proxy(this.closeChatter, this));
         },
 
         /**
@@ -33,5 +33,6 @@ define([
             $(this.element).addClass('active');
         }
     });
+
     return $.vladimirLChatter.openButton;
 });

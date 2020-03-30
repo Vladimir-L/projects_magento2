@@ -1,24 +1,18 @@
-<?php /** @var \Vladimirl\Chatter\Block\Data $block */ ?>
-<form id="vladimirl-chatter-form-chatter"
-      method="post"
-      autocomplete="off"
-      action="<?= $block->escapeUrl($block->getUrl('vladimrl_chatter_controller/submit/submit')) ?>"
-      data-mage-init='{"vladimirL_chatter_formChatter": {}}'
-      onsubmit="return false"
->
-    <div id="messages-list">
-        <?php /** @var \Vladimirl\Chatter\Model\ChatMessage $massage */ ?>
-        <?php foreach ($block->getChatMessage() as $massage): ?>
-            <p><?= $massage; ?></p>
-        <?php endforeach; ?>
-    </div>
-    <textarea id="message-input"
-              placeholder="<?= $block->escapeHtml(__('Message')) ?>"
-              name="text_request"
-              data-validate="{required:true}"
-    ></textarea>
-    <button type="submit" id="send-message-button">
-        <?= $block->escapeHtml(__('Send message')) ?></button>
-    <button type="button" id="close-chatter-button">
-        <?= $block->escapeHtml(__('Close chat')) ?></button>
-</form>
+<?php /** @var \Magento\Framework\View\Element\Template $block */ ?>
+<div data-bind="scope: 'formChatter'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "formChatter": {
+                        "component": "vladimirL_chatter_formChatter"
+                        "action": "<?= $block->escapeUrl($block->getUrl('vladimrl_chatter_controller/submit/submit')) ?>"
+                    }
+                }
+            }
+        }
+    }
+</script>
