@@ -8,8 +8,12 @@
 >
     <div id="messages-list">
         <?php /** @var \Vladimirl\Chatter\Model\ChatMessage $massage */ ?>
-        <?php foreach ($block->getChatMessage() as $massage): ?>
-            <p><?= $massage; ?></p>
+        <?php foreach (array_reverse($block->getChatMessage()->getItems()) as $massage): ?>
+            <ul>
+                <li><p><i><?= $massage->getDataByKey('created_at'); ?></i></p></li>
+                <li><p><?= $massage->getDataByKey('author_type'); ?></p></li>
+                <li><b><?= $massage->getDataByKey('message'); ?></b></li>
+            </ul>
         <?php endforeach; ?>
     </div>
     <textarea id="message-input"

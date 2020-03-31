@@ -33,5 +33,6 @@ define([
             $(this.element).addClass('active');
         }
     });
+
     return $.vladimirLChatter.openButton;
 });
