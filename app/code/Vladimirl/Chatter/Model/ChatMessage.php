@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace Vladimirl\Chatter\Model;
 
-use Magento\Framework\Model\AbstractModel;
 use Vladimirl\Chatter\Model\ResourceModel\ChatMessage as ResourceModel;
 
-class ChatMessage extends AbstractModel
+class ChatMessage extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * @inheritDoc

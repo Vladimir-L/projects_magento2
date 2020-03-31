@@ -3,38 +3,34 @@ declare(strict_types=1);
 
 namespace Vladimirl\Chatter\Block;
 
-use Magento\Framework\View\Element\Template;
-use Magento\Framework\View\Element\Template\Context;
-
-class Data extends Template
+class Data extends \Magento\Framework\View\Element\Template
 {
     /**
-     * @var \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatMessageCollectionFactory
+     * @var \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatMessageCollectionFactory $chatMessageCollection
      */
     protected $chatMessageCollection;
 
     /**
      * Data constructor.
-     * @param \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatMessageCollectionFactory $messageFactory
-     * @param Context $context
+     * @param \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatMessageCollectionFactory $chatMessageCollection
+     * @param \Magento\Framework\View\Element\Template\Context $context
      */
     public function __construct(
-        \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatMessageCollectionFactory $messageFactory,
-        Context $context
+        \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatMessageCollectionFactory $chatMessageCollection,
+        \Magento\Framework\View\Element\Template\Context $context
     ) {
-        $this->chatMessageCollection = $messageFactory;
+        $this->chatMessageCollection = $chatMessageCollection;
         parent::__construct($context);
     }
 
     /**
-     * @return $message array
+     * @return \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatMessageCollection
      */
     public function getChatMessage()
     {
         $messageCollection = $this->chatMessageCollection->create();
-        return array_reverse($messageCollection
+        return $messageCollection
             ->setOrder('message_id', 'DESC')
-            ->setPageSize(10)
-            ->getColumnValues('message'));
+            ->setPageSize(10);
     }
 }
