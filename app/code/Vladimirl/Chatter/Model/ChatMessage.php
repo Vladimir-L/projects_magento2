@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Vladimirl\Chatter\Model;
 
-use Magento\Framework\Model\AbstractModel;
 use Vladimirl\Chatter\Model\ResourceModel\ChatMessage as ResourceModel;
 
 /**
@@ -22,7 +21,7 @@ use Vladimirl\Chatter\Model\ResourceModel\ChatMessage as ResourceModel;
  * @method string getChatHash
  * @method $this setChatHash(string $chatHash)
  */
-class ChatMessage extends AbstractModel
+class ChatMessage extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * @inheritDoc

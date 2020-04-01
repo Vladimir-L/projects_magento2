@@ -38,6 +38,9 @@ define([
             $(this.options.formChatterOpenbutton).trigger('vladimirL_chatter_closeChatter');
         },
 
+        /**
+         * Check validation
+         */
         submitForm: function () {
             if (!this.validateForm()) {
                 return;
@@ -75,26 +78,35 @@ define([
                     $('body').trigger('processStart');
                 },
 
-                // @TODO show success message and display message in message list
                 /** @inheritdoc */
                 success: function (response) {
                     $('body').trigger('processStop');
+
                     if (this.shouldShowMessage) {
                         alert({
                             title: $.mage.__('Hello!'),
-                            content: $.mage.__(response.message),
-                            actions: {
-                                always: function () {
-                                }
-                            }
+                            content: $.mage.__(response.message)
                         });
                         this.shouldShowMessage = false;
                     }
-                    $('#messages-list').append('<p>' + response.messageOutput + '</p>');
+                    $('#messages-list').append(
+                        '<ul>' + '<li>' + '<p>' + '<i>' + response.createdAt + '</i>' + '</p>' + '</li>' +
+                        '<li>' + '<p>' + response.authorType + '</p>' + '</li>' +
+                        '<li>' + '<b>' + response.messageOutput + '</b>' + '</li>' + '</ul>');
                     $('#message-input').val('');
+                },
+
+                /** @inheritdoc */
+                error: function () {
+                    $('body').trigger('processStop');
+                    alert({
+                        title: $.mage.__('Error'),
+                        content: $.mage.__('Something went wrong!')
+                    });
                 }
             });
         }
     });
+
     return $.vladimirLChatter.formChatter;
 });
