@@ -36,10 +36,9 @@ class ChatMessages implements \Magento\Customer\CustomerData\SectionSourceInterf
         $chatHash = $this->customerSession->getChatHash();
         $messageCollection = $this->messageCollectionFactory->create();
         $messageCollection->addChatHashFilter($chatHash);
-        $list = array_reverse($messageCollection
+        return array_reverse($messageCollection
             ->setOrder('message_id', 'DESC')
             ->setPageSize(10)
-            ->getColumnValues('message'));
-        return ['list' => $list];
+            ->getData());
     }
 }
