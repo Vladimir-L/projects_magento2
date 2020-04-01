@@ -11,7 +11,7 @@
         <column xsi:type="varchar" name="message" length="255" nullable="false" comment="Message"/>
         <column xsi:type="smallint" name="website_id" padding="5" unsigned="true" nullable="false" identity="false"
                 comment="Website ID"/>
-        <column xsi:type="varchar" name="chat_hash" length="255" nullable="false" comment="Chat Hash"/>
+        <column xsi:type="varchar" name="chat_hash" length="31" nullable="false" comment="Chat Hash"/>
         <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
                 comment="Created At"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">

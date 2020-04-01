@@ -10,7 +10,7 @@ define([
     return Component.extend({
         defaults: {
             action: '',
-            shouldShowMessage: true,
+            shouldShowMessage: true
         },
 
         formChatterClass: ko.observable(''),
@@ -19,13 +19,14 @@ define([
         /** @inheritdoc */
         initialize: function () {
             this._super();
+
             $(document).on(
                 'vladimirL_chatter_openChatter.vladimirL_chatter',
                 $.proxy(this.openFormChatter, this)
             );
-            var chatMessages = customerData.get('vladimrl-chatter');
-            this.messages = Object.values(chatMessages().list) || [];
 
+            var chatMessages = customerData.get('vladimrl-chatter');
+            this.messages = ko.observable(chatMessages().list);
         },
 
         /**
@@ -75,19 +76,26 @@ define([
                 /** @inheritdoc */
                 success: function (response) {
                     $('body').trigger('processStop');
+
                     if (this.shouldShowMessage) {
                         alert({
                             title: $.mage.__('Hello!'),
-                            content: $.mage.__(response.message),
-                            actions: {
-                                always: function () {}
-                            }
+                            content: $.mage.__(response.message)
                         });
                         this.shouldShowMessage = false;
                     }
                     this.clearMessage();
                 },
+
+                /** @inheritdoc */
+                error: function () {
+                    $('body').trigger('processStop');
+                    alert({
+                        title: $.mage.__('Error'),
+                        content: $.mage.__('Something went wrong!')
+                    });
+                }
             });
-        },
+        }
     });
 });

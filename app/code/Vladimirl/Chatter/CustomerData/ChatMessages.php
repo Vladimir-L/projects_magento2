@@ -39,7 +39,7 @@ class ChatMessages implements \Magento\Customer\CustomerData\SectionSourceInterf
         $list = array_reverse($messageCollection
             ->setOrder('message_id', 'DESC')
             ->setPageSize(10)
-            ->getColumnValues('message'));
+            ->getData());
         return ['list' => $list];
     }
 }

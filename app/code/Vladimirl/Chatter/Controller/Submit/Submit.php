@@ -21,9 +21,9 @@ class Submit extends \Magento\Framework\App\Action\Action implements
     private $formKeyValidator;
 
     /**
-     * @var \Vladimirl\Chatter\Model\ChatMessageFactory $chatMessageFactory
+     * @var \Magento\Framework\DB\TransactionFactory $transactionFactory
      */
-    private $chatMessageFactory;
+    private $transactionFactory;
 
     /**
      * @var \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatMessageCollectionFactory $messageCollectionFactory
@@ -31,9 +31,14 @@ class Submit extends \Magento\Framework\App\Action\Action implements
     private $messageCollectionFactory;
 
     /**
-     * @var \Magento\Framework\DB\TransactionFactory $transactionFactory
+     * @var \Vladimirl\Chatter\Model\ChatMessageFactory $chatMessageFactory
      */
-    private $transactionFactory;
+    private $chatMessageFactory;
+
+    /**
+     * @var \Vladimirl\Chatter\Model\ResourceModel\ChatMessage $resourceModel
+     */
+    private $resourceModel;
 
     /**
      * @var \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -44,27 +49,30 @@ class Submit extends \Magento\Framework\App\Action\Action implements
      * Submit constructor.
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator
-     * @param \Vladimirl\Chatter\Model\ChatMessageFactory $chatMessageFactory
-     * @param \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatMessageCollectionFactory $messageCollectionFactory
      * @param \Magento\Framework\DB\TransactionFactory $transactionFactory
+     * @param \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatMessageCollectionFactory $messageCollectionFactory
+     * @param \Vladimirl\Chatter\Model\ChatMessageFactory $chatMessageFactory
+     * @param \Vladimirl\Chatter\Model\ResourceModel\ChatMessage $resourceModel
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Action\Context $context
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator,
-        \Vladimirl\Chatter\Model\ChatMessageFactory $chatMessageFactory,
-        \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatMessageCollectionFactory $messageCollectionFactory,
         \Magento\Framework\DB\TransactionFactory $transactionFactory,
+        \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatMessageCollectionFactory $messageCollectionFactory,
+        \Vladimirl\Chatter\Model\ChatMessageFactory $chatMessageFactory,
+        \Vladimirl\Chatter\Model\ResourceModel\ChatMessage $resourceModel,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Action\Context $context
     ) {
         parent::__construct($context);
         $this->customerSession = $customerSession;
         $this->formKeyValidator = $formKeyValidator;
-        $this->chatMessageFactory = $chatMessageFactory;
-        $this->messageCollectionFactory = $messageCollectionFactory;
         $this->transactionFactory = $transactionFactory;
+        $this->messageCollectionFactory = $messageCollectionFactory;
+        $this->chatMessageFactory = $chatMessageFactory;
+        $this->resourceModel = $resourceModel;
         $this->storeManager = $storeManager;
     }
 
@@ -103,8 +111,8 @@ class Submit extends \Magento\Framework\App\Action\Action implements
 
             if ($customerId) {
                 $transaction = $this->transactionFactory->create();
-                $customerName = $this->customerSession->getCustomerData()->getEmail();
                 $authorType = 'customer';
+                $authorName = $this->customerSession->getCustomerData()->getEmail();
 
                 $messageCollection = $this->messageCollectionFactory->create();
                 $messageCollection->addCustomerIdFilter($customerId)
@@ -121,7 +129,7 @@ class Submit extends \Magento\Framework\App\Action\Action implements
                     if ($existingMessage->getAuthorId() !== $customerId) {
                         $existingMessage->setAuthorType($authorType)
                             ->setAuthorId($customerId)
-                            ->setAuthorName($customerName)
+                            ->setAuthorName($authorName)
                             ->setChatHash($oldChatHash);
                     }
                     $transaction->addObject($existingMessage);
@@ -130,19 +138,17 @@ class Submit extends \Magento\Framework\App\Action\Action implements
                 $this->customerSession->setChatHash($oldChatHash);
 
             } else {
-                $customerName = 'anonymous';
                 $authorType = 'unknown';
+                $authorName = 'anonymous';
             }
-            $transaction = $this->transactionFactory->create();
             $chatMessage = $this->chatMessageFactory->create();
             $chatMessage->setAuthorType($authorType)
                 ->setAuthorId($customerId)
-                ->setAuthorName($customerName)
+                ->setAuthorName($authorName)
                 ->setMessage($this->getChatMessage())
                 ->setWebsiteId($websiteId)
                 ->setChatHash($this->customerSession->getChatHash());
-            $transaction->addObject($chatMessage);
-            $transaction->save();
+            $this->resourceModel->save($chatMessage);
             $message = __('Our administrator will contact you soon!');
         } catch (\Exception $e) {
             $message = __('Error!');
@@ -151,7 +157,9 @@ class Submit extends \Magento\Framework\App\Action\Action implements
         $response = $this->resultFactory->create(ResultFactory::TYPE_JSON);
         $response->setData([
             'message' => $message,
-            'messageOutput' => $this->getChatMessage()
+            'messageOutput' => $this->getChatMessage(),
+            'createdAt' => date("Y-m-d H:i:s"),
+            'authorType' => $authorType
         ]);
         return $response;
     }
