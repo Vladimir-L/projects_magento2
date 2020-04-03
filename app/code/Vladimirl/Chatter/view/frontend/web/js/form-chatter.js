@@ -8,10 +8,13 @@ define([
     $.widget('vladimirLChatter.formChatter', {
         options: {
             formChatterOpenbutton: '.vladimirl-chatter-open-button',
-            closeChatterForm: '#close-chatter-batton',
+            closeChatterForm: '#close-chatter-button',
             sendMessage: '#send-message-button'
         },
 
+        /**
+         * @private
+         */
         _create: function () {
             this.shouldShowMessage = true;
             $(document).on('vladimirL_chatter_openChatter.vladimirL_chatter', $.proxy(this.openFormChatter, this));
@@ -20,28 +23,41 @@ define([
             $(this.element).show();
         },
 
-        // _destroy: function () {
-        // 	$(document).off('vladimirL_chatter_openChatter.vladimirL_chatter');
-        // 	$(this.options.closeChatterForm).off('click.vladimirL_chatter_openChatter.vladimirL_chatter');
-        // 	$(this.options.sendMessage).off('click.vladimirL_chatter');
-        // },
-
+        /**
+         * Open chatter form
+         */
         openFormChatter: function () {
             $(this.element).addClass('active');
         },
+
+        /**
+         * Close chatter form
+         */
         closeFormChatter: function () {
             $(this.element).removeClass('active');
             $(this.options.formChatterOpenbutton).trigger('vladimirL_chatter_closeChatter');
         },
+
+        /**
+         * Check validation
+         */
         submitForm: function () {
             if (!this.validateForm()) {
                 return;
             }
             this.ajaxSubmit();
         },
+
+        /**
+         * Validate chatter form
+         */
         validateForm: function () {
             return $(this.element).validation().valid();
         },
+
+        /**
+         * Submit message via AJAX
+         */
         ajaxSubmit: function () {
             var formData = new FormData($(this.element).get(0));
 
@@ -57,26 +73,36 @@ define([
                 dataType: 'json',
                 context: this,
 
+                /** @inheritdoc */
                 beforeSend: function () {
                     $('body').trigger('processStart');
                 },
 
+                /** @inheritdoc */
                 success: function (response) {
                     $('body').trigger('processStop');
 
                     if (this.shouldShowMessage) {
                         alert({
                             title: $.mage.__('Hello!'),
-                            content: $.mage.__(response.message),
-                            actions: {
-                                always: function () {
-                                }
-                            }
+                            content: $.mage.__(response.message)
                         });
                         this.shouldShowMessage = false;
                     }
-                    $('#displayedForm').append('<p>' + response.textform + '</p>');
-                    $('#entryText').val('');
+                    $('#messages-list').append(
+                        '<ul>' + '<li>' + '<p>' + '<i>' + response.createdAt + '</i>' + '</p>' + '</li>' +
+                        '<li>' + '<p>' + response.authorType + '</p>' + '</li>' +
+                        '<li>' + '<b>' + response.messageOutput + '</b>' + '</li>' + '</ul>');
+                    $('#message-input').val('');
+                },
+
+                /** @inheritdoc */
+                error: function () {
+                    $('body').trigger('processStop');
+                    alert({
+                        title: $.mage.__('Error'),
+                        content: $.mage.__('Something went wrong!')
+                    });
                 }
             });
         }
