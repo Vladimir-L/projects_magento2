@@ -17,28 +17,28 @@ class ChatMessageCollection extends \Magento\Framework\Model\ResourceModel\Db\Co
     }
 
     /**
-     * @param $chatHash
+     * @param string $chatHash
      * @return $this
      */
-    public function addChatHashFilter($chatHash): self
+    public function addChatHashFilter(string $chatHash): self
     {
         return $this->addFieldToFilter('chat_hash', $chatHash);
     }
 
     /**
-     * @param $customerId
+     * @param int $customerId
      * @return $this
      */
-    public function addCustomerIdFilter($customerId): self
+    public function addCustomerIdFilter(int $customerId): self
     {
         return $this->addFieldToFilter('author_id', $customerId);
     }
 
     /**
-     * @param $authorType
+     * @param string $authorType
      * @return $this
      */
-    public function addAuthorTypeFilter($authorType): self
+    public function addAuthorTypeFilter(string $authorType): self
     {
         return $this->addFieldToFilter('author_type', $authorType);
     }
