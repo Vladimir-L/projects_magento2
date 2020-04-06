@@ -36,7 +36,7 @@ class Data extends \Magento\Framework\View\Element\Template
      */
     public function getChatMessage()
     {
-        $chatHash = $this->customerSession->getChatHash();
+        $chatHash = (string) $this->customerSession->getChatHash();
         $messageCollection = $this->chatMessageCollection->create();
         $messageCollection->addChatHashFilter($chatHash);
         return $messageCollection

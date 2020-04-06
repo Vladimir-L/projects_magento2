@@ -33,7 +33,7 @@ class ChatMessages implements \Magento\Customer\CustomerData\SectionSourceInterf
      */
     public function getSectionData(): array
     {
-        $chatHash = $this->customerSession->getChatHash();
+        $chatHash = (string) $this->customerSession->getChatHash();
         $messageCollection = $this->messageCollectionFactory->create();
         $messageCollection->addChatHashFilter($chatHash);
         return array_reverse($messageCollection
