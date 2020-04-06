@@ -126,7 +126,7 @@ class Submit extends \Magento\Framework\App\Action\Action implements
                 $messageCollection->addChatHashFilter($chatHash);
 
                 foreach ($messageCollection as $existingMessage) {
-                    if ($existingMessage->getAuthorId() !== $customerId) {
+                    if ((int) $existingMessage->getAuthorId() !== $customerId) {
                         $existingMessage->setAuthorType($authorType)
                             ->setAuthorId($customerId)
                             ->setAuthorName($authorName)
@@ -138,7 +138,7 @@ class Submit extends \Magento\Framework\App\Action\Action implements
                 $this->customerSession->setChatHash($oldChatHash);
 
             } else {
-                $authorType = 'unknown';
+                $authorType = 'guest';
                 $authorName = 'anonymous';
             }
             $chatMessage = $this->chatMessageFactory->create();
