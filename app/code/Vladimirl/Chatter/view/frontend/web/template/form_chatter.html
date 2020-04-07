@@ -6,7 +6,6 @@
                 class: formChatterClass,
                 id: 'vladimirl-chatter-form-chatter'
                 }"
-      data-mage-init='{"vladimirL_chatter_formChatter": {}}'
 >
     <div id="messages-list" data-bind="foreach: { data: messages, as: 'dataMassage' }">
         <ul>
@@ -22,7 +21,7 @@
                     placeholder: 'Message',
                     id: 'message-input'
                 }"
-              data-validate="{required:true}"
+              required="true"
     >
 </textarea>
     <button type="submit"
