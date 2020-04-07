@@ -3,13 +3,15 @@
     <body>
         <referenceContainer name="before.body.end">
             <container name="vladimirL.chatter">
-                <block class="Magento\Framework\View\Element\Template"
+                <block class="Vladimirl\Chatter\Block\Data"
                        name="vladimirL.chatter.button"
                        template="Vladimirl_Chatter::open_button.phtml"
+                       ifconfig="vladimirl_chatter/general/enabled"
                 />
                 <block class="Magento\Framework\View\Element\Template"
                        name="vladimirL.chatter.formChatter"
                        template="Vladimirl_Chatter::form_chatter.phtml"
+                       ifconfig="vladimirl_chatter/general/enabled"
                 >
                     <arguments>
                         <argument name="jsLayout" xsi:type="array">
