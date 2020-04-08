@@ -43,40 +43,54 @@ class CustomerLogIn implements \Magento\Framework\Event\ObserverInterface
     public function execute(\Magento\Framework\Event\Observer $observer):void
     {
         if ($this->customerSession->isLoggedIn()) {
-
-            if (!$chatHash = $this->customerSession->getChatHash()) {
-                $this->customerSession->setChatHash($this->generateHash());
-            }
-
-            $customerId = (int) $this->customerSession->getId();
+            $customerId = (int)$this->customerSession->getId();
             $this->customerSession->setAuthorType('customer');
-            $authorType = (string) $this->customerSession->getAuthorType();
+            $authorType = (string)$this->customerSession->getAuthorType();
             $authorName = $this->customerSession->getCustomerData()->getEmail();
 
-            $messageCollection = $this->messageCollectionFactory->create();
-            $messageCollection->addCustomerIdFilter($customerId)
-                ->addAuthorTypeFilter($authorType);
-
-            $oldChatHash = $messageCollection->getFirstItem()->getChatHash();
-            if ($oldChatHash === null) {
-                $oldChatHash = $this->customerSession->getChatHash();
-            }
-
-            $messageCollection = $this->messageCollectionFactory->create();
-            $messageCollection->addChatHashFilter($chatHash);
-
-            $transaction = $this->transactionFactory->create();
-            foreach ($messageCollection as $existingMessage) {
-                if ((int)$existingMessage->getAuthorId() !== $customerId) {
-                    $existingMessage->setAuthorType($authorType)
-                        ->setAuthorId($customerId)
-                        ->setAuthorName($authorName)
-                        ->setChatHash($oldChatHash);
+            if (!$chatHash = $this->customerSession->getChatHash()) {
+                $oldChatHash = $this->checkOldChatHash($customerId, $authorType);
+                if ($oldChatHash !== null) {
+                    $this->customerSession->setChatHash($oldChatHash);
                 }
-                $transaction->addObject($existingMessage);
+
+            } else {
+
+                $oldChatHash = $this->checkOldChatHash($customerId, $authorType);
+                if ($oldChatHash === null) {
+                    $oldChatHash = $this->customerSession->getChatHash();
+                }
+
+                $messageCollection = $this->messageCollectionFactory->create();
+                $messageCollection->addChatHashFilter($chatHash);
+
+                $transaction = $this->transactionFactory->create();
+                foreach ($messageCollection as $existingMessage) {
+                    if ((int)$existingMessage->getAuthorId() !== $customerId) {
+                        $existingMessage->setAuthorType($authorType)
+                            ->setAuthorId($customerId)
+                            ->setAuthorName($authorName)
+                            ->setChatHash($oldChatHash);
+                    }
+                    $transaction->addObject($existingMessage);
+                }
+                $transaction->save();
+
+                $this->customerSession->setChatHash($oldChatHash);
             }
-            $transaction->save();
-            $this->customerSession->setChatHash($oldChatHash);
         }
+    }
+
+    /**
+     * @param $customerId
+     * @param $authorType
+     * @return mixed
+     */
+    private function checkOldChatHash($customerId, $authorType)
+    {
+        $messageCollection = $this->messageCollectionFactory->create();
+        $messageCollection->addCustomerIdFilter($customerId)
+            ->addAuthorTypeFilter($authorType);
+        return $messageCollection->getFirstItem()->getChatHash();
     }
 }
