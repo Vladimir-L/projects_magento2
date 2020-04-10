@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd"
+>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="chatter_listing_data_source"
+                      xsi:type="string">Vladimirl\Chatter\Model\ResourceModel\Collection\Grid\ChatMessageCollection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Vladimirl\Chatter\Model\ResourceModel\Collection\Grid\ChatMessageCollection"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult"
+    >
+        <arguments>
+            <argument name="mainTable" xsi:type="string">vladimirl_chatter</argument>
+            <argument name="resourceModel" xsi:type="string">Vladimirl\Chatter\Model\ResourceModel\ChatMessage</argument>
+        </arguments>
+    </virtualType>
+</config>

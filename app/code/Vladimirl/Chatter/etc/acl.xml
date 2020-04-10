@@ -12,6 +12,10 @@
                         </resource>
                     </resource>
                 </resource>
+                <resource id="Magento_Customer::customer">
+                    <resource id="Vladimirl_Chatter::listing" title="Chatter" translate="title"
+                              sortOrder="50"/>
+                </resource>
             </resource>
         </resources>
     </acl>
