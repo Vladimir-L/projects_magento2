@@ -7,7 +7,7 @@
                        name="vladimirL.chatter.button"
                        template="Vladimirl_Chatter::open_button.phtml"
                 />
-                <block class="Vladimirl\Chatter\Block\Data"
+                <block class="Magento\Framework\View\Element\Template"
                        name="vladimirL.chatter.formChatter"
                        template="Vladimirl_Chatter::form_chatter.phtml"
                 />
