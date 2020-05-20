@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <container name="vladimirL.askAboutThisProduct">
+                <block class="Magento\Framework\View\Element\Template"
+                       name="ask.about.button"
+                       template="Vladimirl_AskAboutThisProduct::ask_about_button.phtml"/>
+                <block class="Vladimirl\AskAboutThisProduct\Block\Data"
+                       name="ask.about.form"
+                       template="Vladimirl_AskAboutThisProduct::ask_about_form.phtml"/>
+                <block class="MSP\ReCaptcha\Block\Frontend\ReCaptcha" name="msp-recaptcha" after="-"
+                       template="MSP_ReCaptcha::msp_recaptcha.phtml"
+                       cacheable="false"
+                       ifconfig="msp_securitysuite_recaptcha/frontend/enabled_custom">
+
+                    <arguments>
+                        <argument name="jsLayout" xsi:type="array">
+                            <item name="components" xsi:type="array">
+                                <item name="msp-recaptcha" xsi:type="array">
+                                    <item name="component" xsi:type="string">MSP_ReCaptcha/js/reCaptcha</item>
+                                    <item name="zone" xsi:type="string">custom_form</item>
+                                </item>
+                            </item>
+                        </argument>
+                    </arguments>
+                </block>
+            </container>
+        </referenceContainer>
+    </body>
+</page>

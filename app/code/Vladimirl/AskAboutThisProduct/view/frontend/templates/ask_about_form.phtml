@@ -1,0 +1,49 @@
+<?php /** @var \Vladimirl\AskAboutThisProduct\Block\Data $block */ ?>
+<div style="display: none;">
+    <form id="vladimirl-ask-about-form"
+          method="post"
+          action="<?= $block->escapeUrl($block->getUrl('vladimrl_askabout_controller/submit/submit')) ?>"
+          data-mage-init='{"vladimirl_askAbout_form": {}}'
+          onsubmit="return false;"
+    >
+        <h2>Ask About This Product</h2>
+        <fieldset>
+            <legend>Enter your details</legend>
+            <label for="ask-about-name">
+                <span><?= $block->escapeHtml(__('Name:')) ?></span>
+            </label>
+            <input type="text"
+                   id="ask-about-name"
+                   name="fname"
+                   title="Name"
+                   placeholder="Your name"
+                   value="<?php echo $block->getNameCustomer(); ?>"
+                   data-validate="{required:true}"
+            ><br><br>
+            <label for="ask-about-email">
+                <span><?= $block->escapeHtml(__('Email:')) ?></span>
+            </label>
+            <input type="email"
+                   id="as-k-about-email"
+                   name="email"
+                   title="Email"
+                   placeholder="Your email"
+                   value="<?php echo $block->getEmailCustomer(); ?>"
+                   data-validate="{required:true}"
+            ><br><br>
+            <label for="ask-about-text-question">
+                <span><?= $block->escapeHtml(__('Enter your question:')) ?></span>
+            </label>
+            <textarea id="ask-about-text-question"
+                      title="Your question"
+                      placeholder="Your question"
+                      name="texQuestion"
+                      data-validate="{required:true}"
+            ></textarea>
+            <input type="hidden" id="sku" name="sku" value="<?php echo $block->getProductSku(); ?>">
+        </fieldset>
+        <button type="submit" title="<?= $block->escapeHtmlAttr(__('Send email')) ?>" class="action submit primary">
+            <span><?= $block->escapeHtml(__('Send email')) ?></span>
+        </button>
+    </form>
+</div>
