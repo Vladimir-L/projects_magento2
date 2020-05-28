@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">chat_form.chat_form_data_source</item>
+            <item name="deps" xsi:type="string">chat_form.chat_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Contact Form</item>
+        <item name="config" xsi:type="array">
+            <item name="dataScope" xsi:type="string">data</item>
+            <item name="namespace" xsi:type="string">chat_form</item>
+        </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+        <item name="buttons" xsi:type="array">
+            <item name="back" xsi:type="string">Vladimirl\Chatter\Block\Adminhtml\Message\Edit\BackButton</item>
+            <item name="save" xsi:type="array">
+                <item name="name" xsi:type="string">save</item>
+                <item name="label" xsi:type="string" translate="true">Save Message</item>
+                <item name="class" xsi:type="string">primary</item>
+            </item>
+        </item>
+    </argument>
+    <dataSource name="chat_form_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Vladimirl\Chatter\Ui\Component\DataProvider\Chat\Form\DataProvider</argument>
+            <argument name="name" xsi:type="string">chat_form_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">chat_id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="submit_url" xsi:type="url" path="vladimirl_chatter/message/save"/>
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+    <fieldset name="chatMessage">
+        <settings>
+            <label translate="true">Messages</label>
+        </settings>
+        <field name="author_name" formElement="input" sortOrder="10">
+            <settings>
+                <elementTmpl>ui/form/element/text</elementTmpl>
+                <label translate="true">Send New Message to:</label>
+                <imports>
+                    <link name="value">${ $.provider }:data.customer.author_name</link>
+                </imports>
+            </settings>
+        </field>
+        <field name="input_message">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="formElement" xsi:type="string">textarea</item>
+                    <item name="cols" xsi:type="number">10</item>
+                    <item name="rows" xsi:type="number">3</item>
+                    <item name="label" translate="true" xsi:type="string">Enter Message:</item>
+                    <item name="dataType" translate="true" xsi:type="string">text</item>
+                </item>
+            </argument>
+        </field>
+        <insertListing name="message_listing">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="autoRender" xsi:type="boolean">true</item>
+                    <item name="ns" xsi:type="string">message_listing</item>
+                    <item name="externalProvider" xsi:type="string">message_listing.message_listing_data_source</item>
+                    <item name="imports" xsi:type="array">
+                        <item name="chat_id" xsi:type="string">${ $.provider }:data.chat_id</item>
+                    </item>
+                    <item name="exports" xsi:type="array">
+                        <item name="chat_id" xsi:type="string">${ $.externalProvider }:params.chat_id</item>
+                    </item>
+                </item>
+            </argument>
+        </insertListing>
+    </fieldset>
+</form>
