@@ -1,6 +1,9 @@
-<a href="javascript:void(0);"
-   class="vladimirl-chatter-open-button active"
-   data-mage-init='{"vladimirL_chatter_openButton": {}}'
-   title="<?= $block->escapeHtml(__('Open chat')) ?>">
-    <span class="icon-chat"></span>
-</a>
+<?php /** @var \Vladimirl\Chatter\Block\Data $block */ ?>
+<?php  if ($block->checkLoggedIn()): ?>
+    <a href="javascript:void(0);"
+       class="vladimirl-chatter-open-button active"
+       data-mage-init='{"vladimirL_chatter_openButton": {}}'
+       title="<?= $block->escapeHtml(__('Open chat')) ?>">
+        <span class="icon-chat"></span>
+    </a>
+<?php endif; ?>

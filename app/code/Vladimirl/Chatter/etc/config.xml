@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <vladimirl_chatter>
+            <general>
+                <enabled>1</enabled>
+                <allow_for_guests>1</allow_for_guests>
+            </general>
+        </vladimirl_chatter>
+    </default>
+</config>

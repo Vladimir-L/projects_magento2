@@ -8,6 +8,8 @@ use Vladimirl\Chatter\Model\ResourceModel\ChatMessage as ResourceModel;
 
 class ChatMessageCollection extends \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
 {
+    protected $_idFieldName = 'message_id';
+
     /**
      * @inheritDoc
      */

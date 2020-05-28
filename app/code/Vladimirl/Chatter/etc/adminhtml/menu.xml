@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Vladimirl_Chatter::chatter"
+             title="Vladimir Lopatkin"
+             module="Vladimirl_Chatter"
+             sortOrder="50"
+             parent="Magento_Customer::customer"
+             resource="Vladimirl_Chatter::chatter"
+        />
+        <add id="Vladimirl_Chatter::chat_listing"
+             title="Chatter"
+             translate="title"
+             module="Vladimirl_Chatter"
+             sortOrder="10"
+             parent="Vladimirl_Chatter::chatter"
+             action="vladimirl_chatter/index/index"
+             resource="Vladimirl_Chatter::chat_listing"
+        />
+    </menu>
+</config>
