@@ -117,6 +117,24 @@ class MessageData extends \Magento\Framework\Api\AbstractSimpleObject implements
     }
 
     /**
+     * @return int
+     */
+    public function getChatId(): int
+    {
+        return (int) $this->_get(MessageInterface::CHAT_ID);
+    }
+
+    /**
+     * @param int $chatId
+     * @return $this|MessageInterface
+     */
+    public function setChatId(int $chatId): MessageInterface
+    {
+        $this->setData(self::CHAT_ID, $chatId);
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getChatHash(): string

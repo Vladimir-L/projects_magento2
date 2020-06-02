@@ -39,24 +39,17 @@ class MessageManagement
     }
 
     /**
-     * @param int $messageId
-     * @param int $websiteId
-     * @return MessageInterface[]
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @param string $chatHash
+     * @return array
      */
-    public function getChatMessages(int $messageId, int $websiteId): array
+    public function getChatMessages(string $chatHash): array
     {
         $this->searchCriteriaBuilder->addFilters([
             $this->filterBuilder
-                ->setField('message_id')
-                ->setValue($messageId)
+                ->setField('chat_hash')
+                ->setValue($chatHash)
                 ->setConditionType('eq')
                 ->create(),
-            $this->filterBuilder
-                ->setField('website_id')
-                ->setValue($websiteId)
-                ->setConditionType('eq')
-                ->create()
         ]);
 
         return $this->messageRepository->getList($this->searchCriteriaBuilder->create())

@@ -16,32 +16,24 @@ interface MessageRepositoryInterface
     public function save(MessageInterface $message): MessageInterface;
 
     /**
-     * Get message by message_id
-     *
      * @param int $messageId
      * @return MessageInterface
      */
     public function get(int $messageId): MessageInterface;
 
     /**
-     * Get list of messages
-     *
      * @param SearchCriteriaInterface $searchCriteria
      * @return \Vladimirl\Chatter\Api\Data\MessageSearchResultInterface
      */
     public function getList(SearchCriteriaInterface $searchCriteria): MessageSearchResultInterface;
 
     /**
-     * Delete message object
-     *
      * @param MessageInterface $message
      * @return bool
      */
     public function delete(MessageInterface $message): bool;
 
     /**
-     * Delete message by message_id
-     *
      * @param int $messageId
      * @return bool
      */
