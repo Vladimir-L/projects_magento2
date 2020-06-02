@@ -17,6 +17,8 @@ interface MessageInterface
 
     public const WEBSITE_ID = 'website_id';
 
+    public const CHAT_ID = 'chat_id';
+
     public const CHAT_HASH = 'chat_hash';
 
     public const CREATED_AT = 'created_at';
@@ -86,6 +88,17 @@ interface MessageInterface
      * @return $this
      */
     public function setWebsiteId(int $websiteId): self;
+
+    /**
+     * @return int
+     */
+    public function getChatId(): int;
+
+    /**
+     * @param int $chatId
+     * @return $this
+     */
+    public function setChatId(int $chatId): self;
 
     /**
      * @return string

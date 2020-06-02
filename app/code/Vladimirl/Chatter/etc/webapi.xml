@@ -4,7 +4,7 @@
     <route url="/V1/vladimrl-chatter/submit" method="GET">
         <service class="Vladimirl\Chatter\Api\MessageRepositoryInterface" method="getList"/>
         <resources>
-            <resource ref="Vladimirl_Chatter::listing"/>
+            <resource ref="Vladimirl_Chatter::chat_listing"/>
         </resources>
     </route>
 </routes>

@@ -38,7 +38,7 @@ class MessageRepository implements \Vladimirl\Chatter\Api\MessageRepositoryInter
     /**
      * MessageRepository constructor.
      * @param \Magento\Framework\EntityManager\EntityManager $entityManager
-     * @param \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatMessageCollectionFactory $chatMessageCollectionFactory
+     * @param \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatMessageCollectionFactory
      * @param \Vladimirl\Chatter\Api\Data\MessageSearchResultInterfaceFactory $searchResultsFactory
      * @param \Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface $collectionProcessor
      * @param \Vladimirl\Chatter\Api\Data\MessageInterfaceFactory $messageDataFactory
@@ -79,8 +79,8 @@ class MessageRepository implements \Vladimirl\Chatter\Api\MessageRepositoryInter
      */
     public function get(int $messageId): MessageInterface
     {
-        $customer = $this->messageDataFactory->create();
-        return $this->entityManager->load($customer, $messageId);
+        $message = $this->messageDataFactory->create();
+        return $this->entityManager->load($message, $messageId);
     }
 
     public function getList(SearchCriteriaInterface $searchCriteria): MessageSearchResultInterface
@@ -91,12 +91,8 @@ class MessageRepository implements \Vladimirl\Chatter\Api\MessageRepositoryInter
 
         /** @var ChatMessage $chatMessage */
         foreach ($chatMessageCollection as $chatMessage) {
-            $data = $chatMessage->getData();
-            $data['id'] = $chatMessage->getId();
-            $data['attribute_code'] = $chatMessage->getAttributeCode();
-            $chatMessages[] = $this->messageDataFactory->create(['data' => $data]);
+            $chatMessages[] = $chatMessage->getData();
         }
-
         /** @var MessageSearchResultInterface $searchResults */
         $searchResults = $this->searchResultsFactory->create();
         $searchResults->setTotalCount($chatMessageCollection->getSize());

@@ -13,7 +13,7 @@
                     </resource>
                 </resource>
                 <resource id="Magento_Customer::customer">
-                    <resource id="Vladimirl_Chatter::listing" title="Chatter" translate="title"
+                    <resource id="Vladimirl_Chatter::chat_listing" title="Chatter" translate="title"
                               sortOrder="50"/>
                 </resource>
             </resource>

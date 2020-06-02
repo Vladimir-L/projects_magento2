@@ -15,8 +15,6 @@ interface MessageSearchResultInterface extends \Magento\Framework\Api\SearchResu
     public function getItems();
 
     /**
-     * Set items list.
-     *
      * @param \Vladimirl\Chatter\Api\Data\MessageInterface[] $items
      * @return $this
      */
