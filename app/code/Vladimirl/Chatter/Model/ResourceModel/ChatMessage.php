@@ -10,6 +10,6 @@ class ChatMessage extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
      */
     protected function _construct(): void
     {
-        $this->_init('vladimirl_chatter', 'message_id');
+        $this->_init('vladimirl_chatter_messages', 'message_id');
     }
 }

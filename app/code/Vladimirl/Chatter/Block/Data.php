@@ -5,10 +5,7 @@ namespace Vladimirl\Chatter\Block;
 
 class Data extends \Magento\Framework\View\Element\Template
 {
-    /**
-     * @var \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatMessageCollectionFactory $chatMessageCollection
-     */
-    protected $chatMessageCollection;
+    public const XML_PATH_ALLOW_FOR_GUESTS = 'vladimirl_chatter/general/allow_for_guests';
 
     /**
      * @var \Magento\Customer\Model\Session $customerSession
@@ -16,31 +13,36 @@ class Data extends \Magento\Framework\View\Element\Template
     private $customerSession;
 
     /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     */
+    private $scopeConfig;
+
+    /**
      * Data constructor.
-     * @param \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatMessageCollectionFactory $chatMessageCollection
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\View\Element\Template\Context $context
      */
     public function __construct(
-        \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatMessageCollectionFactory $chatMessageCollection,
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\View\Element\Template\Context $context
     ) {
-        $this->chatMessageCollection = $chatMessageCollection;
         $this->customerSession = $customerSession;
+        $this->scopeConfig = $scopeConfig;
         parent::__construct($context);
     }
 
     /**
-     * @return \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatMessageCollection
+     * @return bool
      */
-    public function getChatMessage()
+    public function checkLoggedIn(): bool
     {
-        $chatHash = (string) $this->customerSession->getChatHash();
-        $messageCollection = $this->chatMessageCollection->create();
-        $messageCollection->addChatHashFilter($chatHash);
-        return $messageCollection
-            ->setOrder('message_id', 'DESC')
-            ->setPageSize(10);
+        $allowUseChatter = true;
+        if (!$this->customerSession->isLoggedIn() && !$this->scopeConfig->getValue(self::XML_PATH_ALLOW_FOR_GUESTS)
+        ) {
+            $allowUseChatter = false;
+        }
+        return $allowUseChatter;
     }
 }

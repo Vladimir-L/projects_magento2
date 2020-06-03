@@ -1,7 +1,23 @@
 <?xml version="1.0"?>
 <schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
-    <table name="vladimirl_chatter" resource="default" engine="innodb" comment="Chatter">
+    <table name="vladimirl_chatter_chats" resource="default" engine="innodb" comment="Chats">
+        <column xsi:type="int" name="chat_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Chat ID"/>
+        <column xsi:type="smallint" name="author_id" padding="5" unsigned="true" nullable="false" identity="false"
+                comment="Author ID"/>
+        <column xsi:type="varchar" name="author_name" length="255" nullable="false" comment="Author Name"/>
+        <column xsi:type="smallint" name="website_id" padding="5" unsigned="true" nullable="false" identity="false"
+                comment="Website ID"/>
+        <column xsi:type="varchar" name="chat_hash" length="31" nullable="false" comment="Chat Hash"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Created At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="chat_id"/>
+        </constraint>
+    </table>
+
+    <table name="vladimirl_chatter_messages" resource="default" engine="innodb" comment="Chat Messages">
         <column xsi:type="int" name="message_id" padding="10" unsigned="true" nullable="false" identity="true"
                 comment="Message ID"/>
         <column xsi:type="varchar" name="author_type" length="255" nullable="false" comment="Author Type"/>
@@ -11,6 +27,8 @@
         <column xsi:type="varchar" name="message" length="255" nullable="false" comment="Message"/>
         <column xsi:type="smallint" name="website_id" padding="5" unsigned="true" nullable="false" identity="false"
                 comment="Website ID"/>
+        <column xsi:type="int" name="chat_id" padding="10" unsigned="true" nullable="false" identity="false"
+                comment="Chat ID"/>
         <column xsi:type="varchar" name="chat_hash" length="31" nullable="false" comment="Chat Hash"/>
         <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
                 comment="Created At"/>
@@ -18,12 +36,22 @@
             <column name="message_id"/>
         </constraint>
         <constraint xsi:type="foreign"
-                    referenceId="VLADIMIRL_CHATTER_WEBSITE_ID_STORE_WEBSITE_WEBSITE_ID"
-                    table="vladimirl_chatter"
+                    referenceId="VLADIMIRL_CHATTER_MESSAGES_WEBSITE_ID_STORE_WEBSITE_WEBSITE_ID"
+                    table="vladimirl_chatter_messages"
                     column="website_id"
                     referenceTable="store_website"
                     referenceColumn="website_id"
                     onDelete="CASCADE"
         />
+        <constraint xsi:type="foreign"
+                    referenceId="VLADIMIRL_CHATTER_MESSAGES_CHAT_ID_VLADIMIRL_CHATTER_CHATS_CHAT_ID"
+                    table="vladimirl_chatter_messages"
+                    column="chat_id"
+                    referenceTable="vladimirl_chatter_chats"
+                    referenceColumn="chat_id"
+                    onDelete="CASCADE"
+        />
+
     </table>
+
 </schema>
