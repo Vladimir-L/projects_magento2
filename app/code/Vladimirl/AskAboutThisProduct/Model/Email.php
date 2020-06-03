@@ -3,9 +3,14 @@
 namespace Vladimirl\AskAboutThisProduct\Model;
 
 use Magento\Framework\App\Area;
+use Magento\Store\Model\ScopeInterface;
 
 class Email
 {
+    public const XML_PATH_SENDER = 'contact/email/sender_email_identity';
+
+    public const XML_PATH_RECIPIENT = 'contact/email/recipient_email';
+
     /**
      * @var \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      */
@@ -27,30 +32,36 @@ class Email
     private $customerSession;
 
     /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     */
+    protected $scopeConfig;
+
+    /**
      * Email constructor.
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Customer\Model\Session $customerSession
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->transportBuilder = $transportBuilder;
         $this->inlineTranslation = $inlineTranslation;
         $this->storeManager = $storeManager;
         $this->customerSession = $customerSession;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
-     * Send demo email from controller
-     *
-     * @return void
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\MailException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function send(): void
     {
@@ -59,7 +70,7 @@ class Email
         $templateVariables = [
             'name' => $dataCustomer->getData('fname'),
             'email' => $dataCustomer->getData('email'),
-            'question'=> $dataCustomer->getData('texQuestion'),
+            'question' => $dataCustomer->getData('textQuestion'),
             'sku' => $dataCustomer->getData('sku')
         ];
 
@@ -75,9 +86,14 @@ class Email
                     ]
                 )
                 ->setTemplateVars($templateVariables)
-                ->setFromByScope('support')
-                // Must get recipient from config instead of hardcoding the email
-                ->addTo('recipient@example.com')
+                ->setFromByScope($this->scopeConfig->getValue(
+                    self::XML_PATH_SENDER,
+                    ScopeInterface::SCOPE_STORE
+                ))
+                ->addTo($this->scopeConfig->getValue(
+                    self::XML_PATH_RECIPIENT,
+                    ScopeInterface::SCOPE_STORE
+                ))
                 ->setReplyTo('volodymyrl@default-value.com', 'Volodymyr Lopatkin')
                 ->getTransport();
 

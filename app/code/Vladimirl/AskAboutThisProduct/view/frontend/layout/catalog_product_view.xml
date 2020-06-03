@@ -9,22 +9,21 @@
                        template="Vladimirl_AskAboutThisProduct::ask_about_button.phtml"/>
                 <block class="Vladimirl\AskAboutThisProduct\Block\Data"
                        name="ask.about.form"
-                       template="Vladimirl_AskAboutThisProduct::ask_about_form.phtml"/>
-                <block class="MSP\ReCaptcha\Block\Frontend\ReCaptcha" name="msp-recaptcha" after="-"
-                       template="MSP_ReCaptcha::msp_recaptcha.phtml"
-                       cacheable="false"
-                       ifconfig="msp_securitysuite_recaptcha/frontend/enabled_custom">
+                       template="Vladimirl_AskAboutThisProduct::ask_about_form.phtml">
+                    <container name="ask.about.captcha" label="Captcha">
+                        <block class="Magento\Captcha\Block\Captcha" name="captcha" after="-" cacheable="false">
+                            <action method="setFormId">
+                                <argument name="formId" xsi:type="string">email_form_captcha</argument>
+                            </action>
+                            <action method="setImgWidth">
+                                <argument name="width" xsi:type="string">230</argument>
+                            </action>
+                            <action method="setImgHeight">
+                                <argument name="width" xsi:type="string">50</argument>
+                            </action>
+                        </block>
+                    </container>
 
-                    <arguments>
-                        <argument name="jsLayout" xsi:type="array">
-                            <item name="components" xsi:type="array">
-                                <item name="msp-recaptcha" xsi:type="array">
-                                    <item name="component" xsi:type="string">MSP_ReCaptcha/js/reCaptcha</item>
-                                    <item name="zone" xsi:type="string">custom_form</item>
-                                </item>
-                            </item>
-                        </argument>
-                    </arguments>
                 </block>
             </container>
         </referenceContainer>

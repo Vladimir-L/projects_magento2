@@ -42,7 +42,7 @@ define([
          */
         closeForm: function () {
             this.modal.modal('closeModal');
-            document.getElementById("vladimirl-ask-about-form").reset();
+            document.getElementById('vladimirl-ask-about-form').reset();
         },
 
         /**

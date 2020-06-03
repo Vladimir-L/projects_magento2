@@ -37,9 +37,10 @@
             <textarea id="ask-about-text-question"
                       title="Your question"
                       placeholder="Your question"
-                      name="texQuestion"
+                      name="textQuestion"
                       data-validate="{required:true}"
             ></textarea>
+            <?php echo $block->getChildHtml('ask.about.captcha'); ?>
             <input type="hidden" id="sku" name="sku" value="<?php echo $block->getProductSku(); ?>">
         </fieldset>
         <button type="submit" title="<?= $block->escapeHtmlAttr(__('Send email')) ?>" class="action submit primary">
