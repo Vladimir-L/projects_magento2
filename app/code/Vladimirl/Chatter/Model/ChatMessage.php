@@ -18,6 +18,8 @@ use Vladimirl\Chatter\Model\ResourceModel\ChatMessage as ResourceModel;
  * @method $this setMessage (string $messageId)
  * @method string getWebsiteId
  * @method $this setWebsiteId(int $websiteId)
+ * @method string getChatId
+ * @method $this setChatId(int $chatId)
  * @method string getChatHash
  * @method $this setChatHash(string $chatHash)
  */

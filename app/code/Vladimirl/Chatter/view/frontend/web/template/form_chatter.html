@@ -1,0 +1,42 @@
+<form method="post"
+      action="javascript:void(0);"
+      onsubmit="return false"
+      data-bind="submit: saveChatMessage, clearMessage,
+                attr: {
+                class: formChatterClass,
+                id: 'vladimirl-chatter-form-chatter'
+                }"
+>
+    <div id="messages-list" data-bind="foreach: { data: messages, as: 'dataMassage' }">
+        <ul>
+            <li><p><i data-bind="text: dataMassage.created_at"></i></p></li>
+            <li><p data-bind="text: dataMassage.author_type"></p></li>
+            <li><b data-bind="text: dataMassage.message"></b></li>
+        </ul>
+    </div>
+
+    <textarea data-bind="
+                textInput: text_request,
+                attr: {
+                    placeholder: 'Message',
+                    id: 'message-input'
+                }"
+              required="true"
+    >
+</textarea>
+    <button type="submit"
+            data-bind=" attr: {title: $t('Send message')}"
+    >
+        <span translate="'Send message'"></span>
+    </button>
+    <button type="button"
+            data-bind="
+            click: closeFormChatter,
+            attr: {
+                title: $t('Close chat'),
+                id: 'close-chatter-button'
+            }"
+    >
+        <span translate="'Close chat'"></span>
+    </button>
+</form>
