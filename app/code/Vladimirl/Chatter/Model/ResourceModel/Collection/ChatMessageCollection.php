@@ -44,4 +44,13 @@ class ChatMessageCollection extends \Magento\Framework\Model\ResourceModel\Db\Co
     {
         return $this->addFieldToFilter('author_type', $authorType);
     }
+
+    /**
+     * @param int $chatId
+     * @return $this
+     */
+    public function addChatIdFilter(int $chatId): self
+    {
+        return $this->addFieldToFilter('chat_id', $chatId);
+    }
 }

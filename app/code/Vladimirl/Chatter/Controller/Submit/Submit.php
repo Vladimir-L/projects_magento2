@@ -36,14 +36,19 @@ class Submit extends \Magento\Framework\App\Action\Action implements
     private $chatCollectionFactory;
 
     /**
-     * @var \Vladimirl\Chatter\Api\Data\MessageInterfaceFactory
+     * @var \Magento\Framework\DB\TransactionFactory $transactionFactory
      */
-    private $messageFactory;
+    private $transactionFactory;
 
     /**
-     * @var \Vladimirl\Chatter\Model\MessageRepository $messageRepository
+     * @var \Vladimirl\Chatter\Model\ChatMessageFactory $chatMessageFactory
      */
-    private $messageRepository;
+    private $chatMessageFactory;
+
+    /**
+     * @var \Vladimirl\Chatter\Model\ResourceModel\ChatMessage $chatMessageResourceModel
+     */
+    private $chatMessageResourceModel;
 
     /**
      * @var \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -57,8 +62,9 @@ class Submit extends \Magento\Framework\App\Action\Action implements
      * @param \Vladimirl\Chatter\Model\ChatFactory $chatsFactory
      * @param \Vladimirl\Chatter\Model\ResourceModel\Chat $chatsResourceModel
      * @param \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatCollectionFactory $chatsCollectionFactory
-     * @param \Vladimirl\Chatter\Api\Data\MessageInterfaceFactory $messageFactory
-     * @param \Vladimirl\Chatter\Model\MessageRepository $messageRepository
+     * @param \Magento\Framework\DB\TransactionFactory $transactionFactory
+     * @param \Vladimirl\Chatter\Model\ChatMessageFactory $chatMessageFactory
+     * @param \Vladimirl\Chatter\Model\ResourceModel\ChatMessage $chatMessageResourceModel
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Action\Context $context
      */
@@ -68,8 +74,9 @@ class Submit extends \Magento\Framework\App\Action\Action implements
         \Vladimirl\Chatter\Model\ChatFactory $chatsFactory,
         \Vladimirl\Chatter\Model\ResourceModel\Chat $chatsResourceModel,
         \Vladimirl\Chatter\Model\ResourceModel\Collection\ChatCollectionFactory $chatsCollectionFactory,
-        \Vladimirl\Chatter\Api\Data\MessageInterfaceFactory $messageFactory,
-        \Vladimirl\Chatter\Model\MessageRepository $messageRepository,
+        \Magento\Framework\DB\TransactionFactory $transactionFactory,
+        \Vladimirl\Chatter\Model\ChatMessageFactory $chatMessageFactory,
+        \Vladimirl\Chatter\Model\ResourceModel\ChatMessage $chatMessageResourceModel,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Action\Context $context
     ) {
@@ -79,25 +86,10 @@ class Submit extends \Magento\Framework\App\Action\Action implements
         $this->chatFactory = $chatsFactory;
         $this->chatResourceModel = $chatsResourceModel;
         $this->chatCollectionFactory = $chatsCollectionFactory;
-        $this->messageFactory = $messageFactory;
-        $this->messageRepository = $messageRepository;
+        $this->transactionFactory = $transactionFactory;
+        $this->chatMessageFactory = $chatMessageFactory;
+        $this->chatMessageResourceModel = $chatMessageResourceModel;
         $this->storeManager = $storeManager;
-    }
-
-    /**
-     * @return string
-     */
-    public function getChatMessage(): string
-    {
-        return $this->getRequest()->getParam('text_request');
-    }
-
-    /**
-     * @return string
-     */
-    public function generateHash(): string
-    {
-        return uniqid('', false);
     }
 
     /**
@@ -124,15 +116,27 @@ class Submit extends \Magento\Framework\App\Action\Action implements
             }
 
             $websiteId = (int) $this->storeManager->getWebsite()->getId();
+            $createdAt = time();
             $chatCollection = $this->chatCollectionFactory->create();
             $chatCollection->addChatHashFilter($this->customerSession->getChatHash());
             $chat = $this->chatFactory->create();
             if ($chatCollection->getFirstItem()->getChatHash() === null) {
                 $chat->setAuthorId($customerId)
                     ->setAuthorName($authorName)
+                    ->setPriority($this->checkPriority())
+                    ->setIsActive(1)
                     ->setWebsiteId($websiteId)
-                    ->setChatHash($this->customerSession->getChatHash());
+                    ->setChatHash($this->customerSession->getChatHash())
+                    ->setCreatedAt($createdAt);
                 $this->chatResourceModel->save($chat);
+            } else {
+                $transaction = $this->transactionFactory->create();
+                foreach ($chatCollection as $collectionChat) {
+                    $collectionChat->setPriority($this->checkPriority())
+                        ->setIsActive(1);
+                    $transaction->addObject($collectionChat);
+                }
+                $transaction->save();
             }
 
             $chatCollection = $this->chatCollectionFactory->create();
@@ -140,15 +144,25 @@ class Submit extends \Magento\Framework\App\Action\Action implements
                 ->setOrder('chat_id', 'DESC')
                 ->getFirstItem()
                 ->getChatId();
-            $chatMessage = $this->messageFactory->create();
+
+            $firstItem = $chatCollection->addChatHashFilter($this->customerSession->getChatHash())
+                ->setOrder('chat_id', 'DESC')
+                ->getFirstItem();
+            $getTime = (string) $firstItem->getCreatedAt();
+            $timeGet = strtotime($getTime);
+            $foo = false;
+
+
+            $chatMessage = $this->chatMessageFactory->create();
             $chatMessage->setAuthorType($authorType)
                 ->setAuthorId($customerId)
                 ->setAuthorName($authorName)
                 ->setMessage($this->getChatMessage())
                 ->setWebsiteId($websiteId)
                 ->setChatId($chatId)
-                ->setChatHash($this->customerSession->getChatHash());
-            $this->messageRepository->save($chatMessage);
+                ->setChatHash($this->customerSession->getChatHash())
+                ->setCreatedAt($createdAt);
+            $this->chatMessageResourceModel->save($chatMessage);
 
             $message = __('Our administrator will contact you soon!');
         } catch (\Exception $e) {
@@ -161,5 +175,34 @@ class Submit extends \Magento\Framework\App\Action\Action implements
             'messageOutput' => $this->getChatMessage()
         ]);
         return $response;
+    }
+
+    /**
+     * @return string
+     */
+    public function getChatMessage(): string
+    {
+        return $this->getRequest()->getParam('text_request');
+    }
+
+    /**
+     * @return string
+     */
+    public function generateHash(): string
+    {
+        return uniqid('', false);
+    }
+
+    /**
+     * @return string
+     */
+    public function checkPriority(): string
+    {
+        if ($this->customerSession->getPageAction() !== 'checkout_index_index') {
+            $priority = 'REGULAR';
+        } else {
+            $priority = 'IMMEDIATE';
+        }
+        return $priority;
     }
 }

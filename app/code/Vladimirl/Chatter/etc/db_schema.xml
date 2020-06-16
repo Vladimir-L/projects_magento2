@@ -7,11 +7,13 @@
         <column xsi:type="smallint" name="author_id" padding="5" unsigned="true" nullable="false" identity="false"
                 comment="Author ID"/>
         <column xsi:type="varchar" name="author_name" length="255" nullable="false" comment="Author Name"/>
+        <column xsi:type="varchar" name="priority" length="255" nullable="false" comment="Priority"/>
+        <column xsi:type="smallint" name="is_active" padding="5" unsigned="true" nullable="true" identity="false"
+                comment="Is Active"/>
         <column xsi:type="smallint" name="website_id" padding="5" unsigned="true" nullable="false" identity="false"
                 comment="Website ID"/>
         <column xsi:type="varchar" name="chat_hash" length="31" nullable="false" comment="Chat Hash"/>
-        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
-                comment="Created At"/>
+        <column xsi:type="datetime" name="created_at" on_update="false" nullable="false" comment="Created At"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="chat_id"/>
         </constraint>
@@ -30,8 +32,7 @@
         <column xsi:type="int" name="chat_id" padding="10" unsigned="true" nullable="false" identity="false"
                 comment="Chat ID"/>
         <column xsi:type="varchar" name="chat_hash" length="31" nullable="false" comment="Chat Hash"/>
-        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
-                comment="Created At"/>
+        <column xsi:type="datetime" name="created_at" on_update="false" nullable="false" comment="Created At"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="message_id"/>
         </constraint>

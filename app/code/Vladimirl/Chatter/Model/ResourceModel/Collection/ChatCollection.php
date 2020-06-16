@@ -27,4 +27,13 @@ class ChatCollection extends \Magento\Framework\Model\ResourceModel\Db\Collectio
         return $this->addFieldToFilter('chat_hash', $chatHash);
     }
 
+    /**
+     * @param int $chatId
+     * @return $this
+     */
+    public function addChatIdFilter(int $chatId): self
+    {
+        return $this->addFieldToFilter('chat_id', $chatId);
+    }
+
 }

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Vladimirl\Chatter\Model;
 
-use Vladimirl\Chatter\Model\ResourceModel\Chat as ResourceModel;
+use Vladimirl\Chatter\Model\ResourceModel\Chat as ResourceModelChat;
 
 /**
  * @method int getChatId
@@ -12,10 +12,16 @@ use Vladimirl\Chatter\Model\ResourceModel\Chat as ResourceModel;
  * @method $this setAuthorId (int $customerId)
  * @method string getAuthorName
  * @method $this setAuthorName (string $customerName)
+ * @method string getPriority
+ * @method $this setPriority(string $priority)
+ * @method int getIsActive
+ * @method $this setIsActive (int $status)
  * @method int getWebsiteId
- * @method $this setWebsiteId (int $customerId)
+ * @method $this setWebsiteId (int $websiteId)
  * @method string getChatHash
  * @method $this setChatHash(string $chatHash)
+ * @method string getCreatedAt
+ * @method $this setCreatedAt(int $createdAt)
  */
 class Chat extends \Magento\Framework\Model\AbstractModel
 {
@@ -25,6 +31,6 @@ class Chat extends \Magento\Framework\Model\AbstractModel
     protected function _construct(): void
     {
         parent::_construct();
-        $this->_init(ResourceModel::class);
+        $this->_init(ResourceModelChat::class);
     }
 }

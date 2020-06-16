@@ -57,6 +57,28 @@
                 </item>
             </item>
         </argument>
+        <settings>
+            <editorConfig>
+                <param name="clientConfig" xsi:type="array">
+                    <item name="saveUrl" xsi:type="url" path="vladimirl_chatter/index/statusEdit"/>
+                    <item name="validateBeforeSave" xsi:type="boolean">false</item>
+                </param>
+                <param name="indexField" xsi:type="string">chat_id</param>
+                <param name="enabled" xsi:type="boolean">true</param>
+                <param name="selectProvider" xsi:type="string">chat_listing.chat_listing.chat_columns.ids
+                </param>
+            </editorConfig>
+            <childDefaults>
+                <param name="fieldAction" xsi:type="array">
+                    <item name="provider" xsi:type="string">chat_listing.chat_listing.chat_columns_editor</item>
+                    <item name="target" xsi:type="string">startEdit</item>
+                    <item name="params" xsi:type="array">
+                        <item name="0" xsi:type="string">${ $.$data.rowIndex }</item>
+                        <item name="1" xsi:type="boolean">true</item>
+                    </item>
+                </param>
+            </childDefaults>
+        </settings>
         <selectionsColumn name="ids">
             <settings>
                 <indexField>chat_id</indexField>
@@ -72,48 +94,30 @@
         <column name="author_id">
             <settings>
                 <filter>text</filter>
-                <editor>
-                    <validation>
-                        <rule name="required-entry" xsi:type="boolean">true</rule>
-                    </validation>
-                    <editorType>text</editorType>
-                </editor>
                 <label translate="true">Author Id</label>
             </settings>
         </column>
         <column name="author_name">
             <settings>
                 <filter>text</filter>
-                <editor>
-                    <validation>
-                        <rule name="required-entry" xsi:type="boolean">true</rule>
-                    </validation>
-                    <editorType>text</editorType>
-                </editor>
                 <label translate="true">Author Name</label>
+            </settings>
+        </column>
+        <column name="priority">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Priority</label>
             </settings>
         </column>
         <column name="website_id">
             <settings>
                 <filter>text</filter>
-                <editor>
-                    <validation>
-                        <rule name="required-entry" xsi:type="boolean">true</rule>
-                    </validation>
-                    <editorType>text</editorType>
-                </editor>
                 <label translate="true">Website Id</label>
             </settings>
         </column>
         <column name="chat_hash">
             <settings>
                 <filter>text</filter>
-                <editor>
-                    <validation>
-                        <rule name="required-entry" xsi:type="boolean">true</rule>
-                    </validation>
-                    <editorType>text</editorType>
-                </editor>
                 <label translate="true">Chat Hash</label>
             </settings>
         </column>
@@ -122,6 +126,20 @@
                 <filter>dateRange</filter>
                 <dataType>date</dataType>
                 <label translate="true">Created At</label>
+            </settings>
+        </column>
+        <column name="is_active" component="Magento_Ui/js/grid/columns/select">
+            <settings>
+                <options class="Vladimirl\Chatter\Ui\Component\Listing\Column\ChatStatus"/>
+                <filter>select</filter>
+                <editor>
+                    <validation>
+                        <rule name="required-entry" xsi:type="boolean">true</rule>
+                    </validation>
+                    <editorType>select</editorType>
+                </editor>
+                <dataType>select</dataType>
+                <label translate="true">Status</label>
             </settings>
         </column>
         <actionsColumn name="actions" class="Vladimirl\Chatter\Ui\Component\Listing\Column\ChatActions">

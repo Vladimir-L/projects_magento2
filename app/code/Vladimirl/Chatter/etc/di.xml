@@ -77,4 +77,12 @@
             <argument name="resourceModel" xsi:type="string">Vladimirl\Chatter\Model\ResourceModel\ChatMessage</argument>
         </arguments>
     </virtualType>
+
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="generateMessage" xsi:type="object">Vladimirl\Chatter\Console\Message</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
