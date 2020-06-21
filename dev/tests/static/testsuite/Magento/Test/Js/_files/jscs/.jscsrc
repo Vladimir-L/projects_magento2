@@ -115,5 +115,8 @@
         "enforceExistence": "exceptExports",
         "requireHyphenBeforeDescription": true,
         "requireParamTypes": true
-    }
+    },
+    "excludeFiles": [
+        "../../../../../../../../../app/code/Vladimirl/Chatter/view/frontend/web/js/view/form-chatter.js"
+    ]
 }

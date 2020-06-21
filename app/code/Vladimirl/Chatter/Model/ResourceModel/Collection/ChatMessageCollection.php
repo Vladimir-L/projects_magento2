@@ -8,6 +8,8 @@ use Vladimirl\Chatter\Model\ResourceModel\ChatMessage as ResourceModel;
 
 class ChatMessageCollection extends \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
 {
+    protected $_idFieldName = 'message_id';
+
     /**
      * @inheritDoc
      */
@@ -41,5 +43,14 @@ class ChatMessageCollection extends \Magento\Framework\Model\ResourceModel\Db\Co
     public function addAuthorTypeFilter(string $authorType): self
     {
         return $this->addFieldToFilter('author_type', $authorType);
+    }
+
+    /**
+     * @param int $chatId
+     * @return $this
+     */
+    public function addChatIdFilter(int $chatId): self
+    {
+        return $this->addFieldToFilter('chat_id', $chatId);
     }
 }

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Vladimirl\Chatter\Model;
 
-use Vladimirl\Chatter\Model\ResourceModel\ChatMessage as ResourceModel;
+use Vladimirl\Chatter\Model\ResourceModel\ChatMessage as ResourceModelMessage;
 
 /**
  * @method int getMessageId
@@ -18,8 +18,12 @@ use Vladimirl\Chatter\Model\ResourceModel\ChatMessage as ResourceModel;
  * @method $this setMessage (string $messageId)
  * @method string getWebsiteId
  * @method $this setWebsiteId(int $websiteId)
+ * @method string getChatId
+ * @method $this setChatId(int $chatId)
  * @method string getChatHash
- * @method $this setChatHash(string $chatHash)
+ * @method $this setChatHash(string $createdAt)
+ * @method string getCreatedAt
+ * @method $this setCreatedAt(int $createdAt)
  */
 class ChatMessage extends \Magento\Framework\Model\AbstractModel
 {
@@ -29,6 +33,6 @@ class ChatMessage extends \Magento\Framework\Model\AbstractModel
     protected function _construct(): void
     {
         parent::_construct();
-        $this->_init(ResourceModel::class);
+        $this->_init(ResourceModelMessage::class);
     }
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <container name="vladimirL.askAboutThisProduct">
+                <block class="Magento\Framework\View\Element\Template"
+                       name="ask.about.button"
+                       template="Vladimirl_AskAboutThisProduct::ask_about_button.phtml"/>
+                <block class="Vladimirl\AskAboutThisProduct\Block\Data"
+                       name="ask.about.form"
+                       template="Vladimirl_AskAboutThisProduct::ask_about_form.phtml">
+                    <container name="ask.about.captcha" label="Captcha">
+                        <block class="Magento\Captcha\Block\Captcha" name="captcha" after="-" cacheable="false">
+                            <action method="setFormId">
+                                <argument name="formId" xsi:type="string">email_form_captcha</argument>
+                            </action>
+                            <action method="setImgWidth">
+                                <argument name="width" xsi:type="string">230</argument>
+                            </action>
+                            <action method="setImgHeight">
+                                <argument name="width" xsi:type="string">50</argument>
+                            </action>
+                        </block>
+                    </container>
+
+                </block>
+            </container>
+        </referenceContainer>
+    </body>
+</page>

@@ -245,6 +245,7 @@ return [
         'MSP_TwoFactorAuth' => 1,
         'Temando_Shipping' => 1,
         'Vertex_Tax' => 1,
+        'Vladimirl_AskAboutThisProduct' => 1,
         'Vladimirl_CMS' => 1,
         'Vladimirl_Chatter' => 1,
         'Vladimirl_ControllerDemo' => 1,
